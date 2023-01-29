@@ -28,23 +28,6 @@ impl Item {
  }//fn new(mut vector: Vec<i32>) -> Option<Item> {
 }//impl List {
 
-fn push(item: Item) -> Vec<i32> {
- if let Some(next) = item.next {
-  let mut vector: Vec<i32> = push(*next);
-   
-  vector.push(item.value);
-
-  vector
-
- } else {//if let Some(next) = item.next {
-  let mut vector: Vec<i32> = vec![];
-
-  vector.push(item.value);
-
-  vector
- }//} else {//if let Some(next) = item.next {
-}//fn push(item: Item) -> Vec<i32> {
-
 fn request() -> String {
  let mut value: String = String::new();
 
@@ -86,13 +69,19 @@ fn union(first: Item, second: Item) -> Item {
  }//} else {//if first.value < second.value {
 }//fn union(first: Item, second: Item) -> Item {
 
-fn vector(item: Item) -> Vec<i32> {
- let mut vector: Vec<i32> = push(item);
+fn vector(mut item: Item) -> Vec<i32> {
+ let mut vector: Vec<i32> = Vec::new();
 
- vector.reverse();
+ vector.push(item.value);
+
+ while let Some(rest) = item.next {
+  vector.push(rest.value);
+
+  item = *rest;
+ }//while let Some(rest) = &first.next {
 
  vector
-}//fn vector(item: Item) -> Vec<i32> {
+}//fn vector(mut item: Item) -> Vec<i32> {
 
 fn main() {
  loop {
