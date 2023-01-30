@@ -40,34 +40,76 @@ fn request() -> String {
  value
 }//fn request() -> String {
 
-fn union(first: Item, second: Item) -> Item {
- if first.value < second.value {
-  let mut item: Item = Item { next: None, value: first.value };
+fn reverse(mut item: Item) -> Item {
+ let mut first: Item = Item { next: None, value: item.value };
 
-  if let Some(next) = first.next {
-   item.next = Some(Box::new(union(*next, second)));
+ while let Some(rest) = item.next {
+  first.next = Some(Box::new(Item { next: first.next.take(), value: first.value }));
 
-  } else {//if let Some(next) = first.next {
-   item.next = Some(Box::new(second));
+  first.value = rest.value;
 
-  }//} else {//if let Some(next) = first.next {
+  item = *rest;
+ }//while let Some(rest) = first.next {
 
-  item
+ first
+}//fn reverse(mut item: Item) -> Item {
 
- } else {//if first.value < second.value {
-  let mut item: Item = Item { next: None, value: second.value };
+fn union(mut first: Item, mut second: Item) -> Item {
+ let mut union: Item = Item { next: None, value: 0 };
 
-  if let Some(next) = second.next {
-   item.next = Some(Box::new(union(first, *next)));
+ loop {
+  if first.value < second.value {
+   union.value = first.value;
 
-  } else {//if let Some(next) = second.next {
-   item.next = Some(Box::new(first));
+   if let Some(rest) = first.next {
+    union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
 
-  }//} else {//if let Some(next) = second.next {
+    first = *rest;
 
-  item
- }//} else {//if first.value < second.value {
-}//fn union(first: Item, second: Item) -> Item {
+   } else {//if let Some(rest) = first.next {
+    union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
+
+    union.value = second.value;
+
+    while let Some(rest) = second.next {
+     union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
+
+     union.value = rest.value;
+
+     second = *rest;
+    }//while let Some(rest) = second.next {
+ 
+    break;
+   }//} else {//if let Some(rest) = first.next {
+
+  } else {//if first.value < second.value {
+   union.value = second.value;
+
+   if let Some(rest) = second.next {
+    union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
+
+    second = *rest;
+
+   } else {//if let Some(rest) = second.next {
+    union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
+
+    union.value = first.value;
+
+    while let Some(rest) = first.next {
+     union.next = Some(Box::new(Item { next: union.next.take(), value: union.value }));
+
+     union.value = rest.value;
+
+     first = *rest;
+    }//while let Some(rest) = first.next {
+ 
+    break;
+   }//} else {//if let Some(rest) = second.next {
+  }//} else {//if first.value < second.value {
+ }//loop {
+
+ reverse(union)
+}//fn union(mut first: Item, mut second: Item) -> Item {
 
 fn vector(mut item: Item) -> Vec<i32> {
  let mut vector: Vec<i32> = Vec::new();
