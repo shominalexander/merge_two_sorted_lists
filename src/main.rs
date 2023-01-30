@@ -78,7 +78,7 @@ fn vector(mut item: Item) -> Vec<i32> {
   vector.push(rest.value);
 
   item = *rest;
- }//while let Some(rest) = &first.next {
+ }//while let Some(rest) = item.next {
 
  vector
 }//fn vector(mut item: Item) -> Vec<i32> {
