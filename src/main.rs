@@ -168,7 +168,7 @@ fn main() {
      println!("Error: {:?}", error);
 
     }//Err(error) => {
-   }//match serde_json::from_str::<Vec<i32>>(&string[..]) {
+   }//match serde_json::from_str::<Vec<Vec<i32>>>(&input[..]) {
   }//} else {//if &input[..] == "exit" {
  }//loop {
 }//fn main() {
